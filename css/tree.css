@@ -1,0 +1,26 @@
+.tree ul{
+    list-style: none;
+    transition: opacity .3s, position .3s, left .3s;
+    position: relative;
+    left: 0px;
+    overflow: hidden;
+    opacity: 100;
+}
+
+.tree-hidden {
+    position: absolute !important;
+    left: -50px !important;
+    opacity: 0 !important;
+    transition: opacity .3s, position .3s, left .3s !important;
+}
+
+.tree-hidden svg {
+    display: none;
+}
+
+.tree-mark-rotate {
+    transform: rotate(90deg);
+    transition: 0.3s;
+    left: -35px !important;
+    top: -7px !important;
+}
