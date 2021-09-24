@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="js/vue.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/axios.min.js"></script>
+
+    <script src="components/navbar-strateg.js"></script>
+    <script src="components/table-files.js"></script>
+</head>
+
+<body>
+    <navbar-strateg id="navbar" :active="active"></navbar-strateg>
+    <div class="container mt-5 mb-5">
+        <div class="card">
+            <div class="card-body">
+                <h5>Загрузить файл:</h5>
+                <div class="input-group mb-5">
+                    <input type="file" class="form-control" multiple id="files">
+                    <button @click="uploadFiles" id="upload" class="btn btn-outline-primary"
+                        type="button">Загрузить</button>
+                </div>
+                <h5 class="ml-auto">
+                    Файлы ждущие обработки:
+                </h5>
+                <table-files id="table" :rows="rows"></table-files>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#navbar',
+            data: function () {
+                return {
+                    active: "Обработка стратегий",
+                }
+            }
+        });
+
+        new Vue({
+            el: '#upload',
+            data: function () {
+                return {}
+            },
+            methods: {
+                uploadFiles() {
+                    var totalfiles = document.querySelector('#files').files.length;
+                    if (totalfiles > 0) {
+                        var formData = new FormData();
+
+                        for (let file of document.getElementById('files').files) {
+                            formData.append("arrayOfFilesName", file);
+                        }
+
+                        axios.post('http://127.0.0.1', formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                        document.querySelector('#files').value = "";
+                        document.querySelector("#upload").innerHTML = `<span class="spinner-border spinner-border-sm" role="status"></span> Загрузка...
+                        `;
+                    } else {
+
+                    }
+
+                }
+            }
+        });
+
+        let tableFilesData = [{
+                id: 1,
+                date: "22.12.2000 18:20:10",
+                filename: "Secret Strategy",
+                status: "NotProcessed",
+                info: "",
+            },
+            {
+                id: 2,
+                date: "22.12.2000 18:20:10",
+                filename: "Secret Strategy",
+                status: 75,
+                info: "Обработка поля 'Название доктрины'",
+            },
+            {
+                id: 3,
+                date: "22.12.2000 18:20:10",
+                filename: "Secret Strategy",
+                status: "Processed",
+                info: "",
+            }
+        ];
+        let tableFiles = new Vue({
+            el: '#table',
+            data: function () {
+                return {
+                    rows: tableFilesData
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>

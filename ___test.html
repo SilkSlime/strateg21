@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-select.css">
+    <link rel="stylesheet" href="css/tree.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <table-files id="table" :headers="headers" :rows="rows"></table-files>
+    <script src="components/table-files.js"></script>
+    <script>
+        let rows = [{
+                id: 1,
+                date: "22.12.2000 18:20:10",
+                title: "Secret Strategy",
+                status: "NotProcessed",
+                info: "",
+            },
+            {
+                id: 2,
+                date: "22.12.2000 18:20:10",
+                title: "Secret Strategy",
+                status: 75,
+                info: "Обработка поля 'Название доктрины'",
+            },
+            {
+                id: 3,
+                date: "22.12.2000 18:20:10",
+                title: "Secret Strategy",
+                status: "Processed",
+                info: "",
+            }
+        ];
+
+        let headers = ["Дата загрузки", "Имя файла", "Статус", "Подробнее"]
+
+        let table1 = new Vue({
+            el: '#table',
+            data: function () {
+                return {
+                    rows,
+                    headers
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

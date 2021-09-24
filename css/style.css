@@ -1,7 +1,3 @@
-.clear:hover {
-    text-decoration: underline;
-}
-
 .flex-center {
     display: flex;
     justify-content: center;
