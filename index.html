@@ -23,15 +23,21 @@
         <div class="card">
             <div class="card-body">
                 <h5>Загрузить файл:</h5>
-                <div class="input-group mb-5">
+                <div class="input-group mb-1">
                     <input type="file" class="form-control" multiple id="files">
                     <button @click="uploadFiles" id="upload" class="btn btn-outline-primary"
                         type="button">Загрузить</button>
+                </div>
+                <div class="progress mb-3" style="opacity: 0;">
+                    <div id="upload-progress" class="progress-bar progress-bar-striped progress-bar-animated"
+                        role="progressbar" style="width: 0%"></div>
                 </div>
                 <h5 class="ml-auto">
                     Файлы ждущие обработки:
                 </h5>
                 <table-files id="table" @process="process" :rows="rows"></table-files>
+                <button @click="process" id="process-all" class="btn btn-outline-primary" type="button"
+                    style="width: 100%;">Обработать все</button>
             </div>
         </div>
     </div>
@@ -64,13 +70,20 @@
                             method: 'post',
                             url: '/api/files_upload.php',
                             data: formData,
-                            headers: { 'Content-Type': 'multipart/form-data' }
+                            headers: { 'Content-Type': 'multipart/form-data' },
+                            onUploadProgress: function (progressEvent) {
+                                document.querySelector("#upload-progress").style.width = (progressEvent.loaded * 100 / progressEvent.total) + '%';
+                            }
                         }).then(function (response) {
                             document.querySelector('#files').value = "";
                             document.querySelector("#upload").innerHTML = "Загрузить";
+                            document.querySelector("#upload-progress").parentElement.style.opacity = 0;
+                            document.querySelector("#upload-progress").style.width = 0 + '%';
                         });
-                        document.querySelector("#upload").innerHTML = `<span class="spinner-border spinner-border-sm" role="status"></span> Загрузка...
-                        `;
+
+                        document.querySelector("#upload").innerHTML = `<span class="spinner-border spinner-border-sm" role="status"></span> Загрузка...`;
+                        document.querySelector("#upload-progress").parentElement.style.opacity = 100;
+                        document.querySelector("#upload-progress").style.width = 0 + '%';
                     } else {
 
                     }
@@ -93,6 +106,27 @@
                         method: 'get',
                         url: `/api/file_process.php?id=${id}`,
                     });
+                }
+            }
+        });
+
+        let processAll = new Vue({
+            el: '#process-all',
+            data: function () {
+                return {
+                }
+            },
+            methods: {
+                process() {
+                    for (let id of Object.keys(tableFiles.rows)) {
+                        if (tableFiles.rows[id].status == "NotProcessed") {
+                            axios({
+                                method: 'get',
+                                url: `/api/file_process.php?id=${id}`,
+                            });
+                        }
+                    }
+
                 }
             }
         });

@@ -1,1 +1,44 @@
-{"1":{"date":"01.08.2021","filename":"\u041b\u0438\u0442\u0432\u0430 \u0418\u0418 2018","strategyName":"Lithuanian artificial intelligence strategy","country":"Lithuania","year":"2018"},"2":{"date":"02.08.2021","filename":"Uruguay AI","strategyName":"Artificial Intelligence Strategy for the Digital Government","country":"Uruguay","year":"2019"},"3":{"date":"03.08.2021","filename":"Irelands-Industry-4-Strategy-2020-2025","strategyName":"Ireland\u2019s Industry 4.0 Strategy 2020-2025","country":"Ireland","year":"2019"},"4":{"date":"04.08.2021","filename":"HTS_Broschuere_eng","strategyName":"The new High-Tech Strategy Innovations for Germany","country":"Germany","year":"2014"},"5":{"date":"05.08.2021","filename":"InnovationStrategy","strategyName":"A strategy for American innovation","country":"USA","year":"2011"},"6":{"date":"07.08.2021","filename":"plan-eng","strategyName":"plan-eng_TEST_N","country":"plan-eng_TEST_C","year":"plan-eng_TEST_Y"},"7":{"date":"2021-09-30","filename":"api-ms-win-core-file-l1-1-0.dll","strategyName":"api-ms-win-core-file-l1-1-0.dll_TEST_N","country":"api-ms-win-core-file-l1-1-0.dll_TEST_C","year":"api-ms-win-core-file-l1-1-0.dll_TEST_Y"},"8":{"date":"2021-09-30","filename":"zmb.dll","strategyName":"zmb.dll_TEST_N","country":"zmb.dll_TEST_C","year":"zmb.dll_TEST_Y"},"9":{"date":"2021-09-30","filename":"zTscoder.exe","strategyName":"zTscoder.exe_TEST_N","country":"zTscoder.exe_TEST_C","year":"zTscoder.exe_TEST_Y"},"10":{"date":"2021-09-30","filename":"zzhost.dll","strategyName":"zzhost.dll_TEST_N","country":"zzhost.dll_TEST_C","year":"zzhost.dll_TEST_Y"},"11":{"date":"2021-09-30","filename":"SOAPVDIR.CMD","strategyName":"SOAPVDIR.CMD_TEST_N","country":"SOAPVDIR.CMD_TEST_C","year":"SOAPVDIR.CMD_TEST_Y"},"12":{"date":"2021-09-30","filename":"_svdir.VBS","strategyName":"_svdir.VBS_TEST_N","country":"_svdir.VBS_TEST_C","year":"_svdir.VBS_TEST_Y"},"13":{"date":"2021-09-30","filename":"SOAPVDIR.CMD","strategyName":"SOAPVDIR.CMD_TEST_N","country":"SOAPVDIR.CMD_TEST_C","year":"SOAPVDIR.CMD_TEST_Y"},"14":{"date":"2021-09-30","filename":"_svdir.VBS","strategyName":"_svdir.VBS_TEST_N","country":"_svdir.VBS_TEST_C","year":"_svdir.VBS_TEST_Y"}}
+{
+    "1": {
+        "date": "01.08.2021",
+        "filename": "\u041b\u0438\u0442\u0432\u0430 \u0418\u0418 2018",
+        "strategyName": "Lithuanian artificial intelligence strategy",
+        "country": "Lithuania",
+        "year": "2018"
+    },
+    "2": {
+        "date": "02.08.2021",
+        "filename": "Uruguay AI",
+        "strategyName": "Artificial Intelligence Strategy for the Digital Government",
+        "country": "Uruguay",
+        "year": "2019"
+    },
+    "3": {
+        "date": "03.08.2021",
+        "filename": "Irelands-Industry-4-Strategy-2020-2025",
+        "strategyName": "Ireland\u2019s Industry 4.0 Strategy 2020-2025",
+        "country": "Ireland",
+        "year": "2019"
+    },
+    "4": {
+        "date": "04.08.2021",
+        "filename": "HTS_Broschuere_eng",
+        "strategyName": "The new High-Tech Strategy Innovations for Germany",
+        "country": "Germany",
+        "year": "2014"
+    },
+    "5": {
+        "date": "05.08.2021",
+        "filename": "InnovationStrategy",
+        "strategyName": "A strategy for American innovation",
+        "country": "USA",
+        "year": "2011"
+    },
+    "6": {
+        "date": "07.08.2021",
+        "filename": "plan-eng",
+        "strategyName": "plan-eng_TEST_N",
+        "country": "plan-eng_TEST_C",
+        "year": "plan-eng_TEST_Y"
+    }
+}
