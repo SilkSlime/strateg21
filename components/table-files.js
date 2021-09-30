@@ -13,10 +13,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="row in rows">
+                <tr v-for="(row, id) in rows">
                     <td>{{ row.date }}</td>
                     <td>{{ row.filename }}</td>
-                    <td v-html="statusHTML(row)" class="align-middle">
+                    
+                    <td v-if="row.status == 'NotProcessed'" class="align-middle">
+                        <button @click="process" :data-id="id" class="btn btn-sm btn-outline-primary" style="width: 100%;" type="button">Обработать</button>
+                    </td>
+                    <td v-else-if="row.status == 'Processed'" class="align-middle">
+                        <button disabled class="btn btn-sm btn-outline-secondary" style="width: 100%;" type="button">Обработано</button>
+                    </td>
+                    <td v-else class="align-middle">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" :style="{ width: row.status+'%' }">{{row.status+'%'}}</div>
+                        </div>
                     </td>
                     <td>
                         {{ row.info }}
@@ -30,14 +40,8 @@
             rows: {},
         },
         methods: {
-            statusHTML(row) {
-                if (row.status == "NotProcessed") {
-                    return `<button class="btn btn-sm btn-outline-primary" style="width: 100%;" type="button">Обработать</button>`;
-                } else if (row.status == "Processed") {
-                    return `<button disabled class="btn btn-sm btn-outline-secondary" style="width: 100%;" type="button">Обработано</button>`;
-                } else   {
-                    return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: ${row.status}%">${row.status+'%'}</div></div>`;
-                }
+            process(e) {
+                this.$emit('process', e.currentTarget.dataset.id)
             }
         },
         computed: {

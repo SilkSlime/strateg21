@@ -30,7 +30,7 @@
                             <h6>{{setting.title}}</h6>
                         </div>
                         <div class="col-md-4">
-                            <input type="text" v-model="setting.value">
+                            <input type="text" v-model="setting.value" style="width: 100%;">
                         </div>
                     </div>
                     <button id="search" @click="save" class="btn btn-outline-primary" type="button" style="width: 100%;">Сохранить</button>
@@ -54,10 +54,6 @@
         let settingsOptions = [{
                 title: "Пороговое значение схожести строк при удалении дублей",
                 value: "0.8"
-            },
-            {
-                title: "sdfsdf",
-                value: "44"
             },
         ]
 

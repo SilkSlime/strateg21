@@ -1,0 +1,34 @@
+{
+    "label": "Классификатор политических инструментов",
+    "nodes": [
+        {
+            "label": "Governance",
+            "nodes": []
+        },
+        {
+            "label": "Financial support",
+            "nodes": []
+        },
+        {
+            "label": "Enablers and other incentives ",
+            "nodes": []
+        },
+        {
+            "label": "Guidance and regulation ",
+            "nodes": [
+                {
+                    "label": "Regulatory oversight and ethical advice bodies",
+                    "nodes": []
+                },
+                {
+                    "label": "Labour mobility regulation and incentives",
+                    "nodes": []
+                },
+                {
+                    "label": "Standards for technology development",
+                    "nodes": []
+                }
+            ]
+        }
+    ]
+}

@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
-    <script src="js/vue.min.js"></script>
+    <script src="js/vue.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/axios.min.js"></script>
 
@@ -43,7 +43,7 @@
                         <div class="mb-3">
                             <label class="form-label">Поиск по странам:</label>
                             <multiselect id="countries" v-model="value" closeOnSelect="false"
-                                placeholder="Веберите опции..." :options="options" multiple="true"></multiselect>
+                                placeholder="Веберите опции..." :options="options" :multiple="true"></multiselect>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Поиск по темам:</label>
@@ -90,7 +90,8 @@
                                 </div>
                             </div>
                             <div class="d-grid">
-                                <button id="search" class="btn btn-outline-primary" type="button">Выполнить
+                                <button id="search" @click="search" class="btn btn-outline-primary"
+                                    type="button">Выполнить
                                     поиск</button>
                             </div>
                         </div>
@@ -108,9 +109,10 @@
                             <h5 class="ml-auto">
                                 Выбранные для сравнения стратегии:
                             </h5>
-                            <table-comparison @remove="remove" @compare="compare" id="table-comparison" :rows="rows"></table-comparison>
+                            <table-comparison @remove="remove" @compare="compare" id="table-comparison" :rows="rows">
+                            </table-comparison>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -127,8 +129,6 @@
             methods: {}
         });
 
-        // TODO
-        let countriesOptions = ["Россия", "Украина", "Ваканда", "Бразилия"];
         let countries = new Vue({
             el: '#countries',
             components: {
@@ -137,70 +137,56 @@
             data: function () {
                 return {
                     value: [],
-                    options: countriesOptions
+                    options: []
                 }
+            },
+            created: function () {
+                axios({
+                    method: 'get',
+                    url: '/api/countries_get.php',
+                })
+                    .then(function (response) {
+                        countries.options = response.data;
+                    });
             }
         });
-
-        // TODO
-        let treeThemeOptions = {
-            label: "Тематический классификатор",
-            nodes: [],
-        };
-
-        // TODO
-        let treePolitOptions = {
-            label: "Классификатор политических инструментов",
-            nodes: [{
-                    label: "Governance",
-                    nodes: [],
-                },
-                {
-                    label: "Financial support",
-                    nodes: [],
-                },
-
-                {
-                    label: "Enablers and other incentives ",
-                    nodes: [],
-                },
-                {
-                    label: "Guidance and regulation ",
-                    nodes: [{
-                            label: "Regulatory oversight and ethical advice bodies",
-                            nodes: [],
-                        },
-                        {
-                            label: "Labour mobility regulation and incentives",
-                            nodes: [],
-                        },
-                        {
-                            label: "Standards for technology development",
-                            nodes: [],
-                        },
-                    ],
-                },
-            ],
-        };
 
         let treeTheme = new Vue({
             el: '#tree-theme',
             data: function () {
                 return {
-                    options: treeThemeOptions,
+                    options: { "label": "Загрузка...", "nodes": [] },
                     value: [],
                 }
             },
+            created: function () {
+                axios({
+                    method: 'get',
+                    url: '/api/tree_theme_get.php',
+                })
+                    .then(function (response) {
+                        treeTheme.options = response.data;
+                    });
+            }
         });
 
         let treePolit = new Vue({
             el: '#tree-polit',
             data: function () {
                 return {
-                    options: treePolitOptions,
+                    options: { "label": "Загрузка...", "nodes": [] },
                     value: [],
                 }
             },
+            created: function () {
+                axios({
+                    method: 'get',
+                    url: '/api/tree_polit_get.php',
+                })
+                    .then(function (response) {
+                        treePolit.options = response.data;
+                    });
+            }
         });
 
         let startDate = new Vue({
@@ -239,71 +225,64 @@
             }
         });
 
-        let tableComparisonData = [];
-
         let tableComparison = new Vue({
             el: '#table-comparison',
             data: function () {
                 return {
-                    rows: tableComparisonData,
+                    rows: {},
                 }
             },
             methods: {
-                remove(e) {
-                    this.rows = this.rows.filter(function (value, index, arr) {
-                        return value == e;
-                    });
-                    console.log(e)
+                remove(id) {
+                    Vue.delete(this.rows, id);
                 },
 
-                compare(e) {
-                    console.log(this.rows)
+                compare() {
+                    let keys = Object.keys(this.rows);
+                    if (keys.length == 2) {
+                        location.href = `card_comparison.html?first=${keys[0]}$second=${keys[1]}`;
+                    }
                 },
             }
         });
 
         ///////////// MAIN TABLE /////////////
-        let tableStrategiesData = [{
-                date: "fsdfsd",
-                filename: "dafsdf",
-                strategyName: "fsdfsfd",
-                country: "dfsdf",
-                year: "fsdfsdf"
-            },
-            {
-                date: "fsdfsd",
-                filename: "dafsdf",
-                strategyName: "fsdfsfd",
-                country: "dfsdf",
-                year: "fsdfsdf"
-            },
-            {
-                date: "fsdfsd",
-                filename: "dafsdf",
-                strategyName: "fsdfsfd",
-                country: "dfsdf",
-                year: "fsdfsdf"
-            }
-        ];
         let tableStrategies = new Vue({
             el: '#table-strategies',
             data: function () {
                 return {
-                    rows: tableStrategiesData,
+                    rows: {},
                 }
             },
             methods: {
-                pick(e) {
-                    tableComparison.rows.push(e);
+                pick(id) {
+                    console.log(Object.keys(tableComparison.rows).length);
+                    if (Object.keys(tableComparison.rows).length < 2) {
+                        Vue.set(tableComparison.rows, id, tableStrategies.rows[id])
+                    }
                 },
-                show(e) {
-                    alert(e)
+                show(id) {
+                    location.href = `card.html?id=${id}`;
                 }
             }
         });
 
-        // TODO
-        // SHOW BTN
+        // TODO ADD SEARCH OPTIONS
+        let search = new Vue({
+            el: '#search',
+            methods: {
+                search() {
+                    tableStrategies.rows = {};
+                    axios({
+                        method: 'get',
+                        url: '/api/strategies_search.php',
+                    })
+                        .then(function (response) {
+                            tableStrategies.rows = response.data;
+                        });
+                }
+            }
+        });
     </script>
 </body>
 

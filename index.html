@@ -31,7 +31,7 @@
                 <h5 class="ml-auto">
                     Файлы ждущие обработки:
                 </h5>
-                <table-files id="table" :rows="rows"></table-files>
+                <table-files id="table" @process="process" :rows="rows"></table-files>
             </div>
         </div>
     </div>
@@ -53,20 +53,22 @@
             },
             methods: {
                 uploadFiles() {
-                    var totalfiles = document.querySelector('#files').files.length;
+                    let input = document.querySelector('#files');
+                    var totalfiles = input.files.length;
                     if (totalfiles > 0) {
                         var formData = new FormData();
-
-                        for (let file of document.getElementById('files').files) {
-                            formData.append("arrayOfFilesName", file);
+                        for (let file of input.files) {
+                            formData.append("files[]", file);
                         }
-
-                        axios.post('http://127.0.0.1', formData, {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        })
-                        document.querySelector('#files').value = "";
+                        axios({
+                            method: 'post',
+                            url: '/api/files_upload.php',
+                            data: formData,
+                            headers: { 'Content-Type': 'multipart/form-data' }
+                        }).then(function (response) {
+                            document.querySelector('#files').value = "";
+                            document.querySelector("#upload").innerHTML = "Загрузить";
+                        });
                         document.querySelector("#upload").innerHTML = `<span class="spinner-border spinner-border-sm" role="status"></span> Загрузка...
                         `;
                     } else {
@@ -77,36 +79,33 @@
             }
         });
 
-        let tableFilesData = [{
-                id: 1,
-                date: "22.12.2000 18:20:10",
-                filename: "Secret Strategy",
-                status: "NotProcessed",
-                info: "",
-            },
-            {
-                id: 2,
-                date: "22.12.2000 18:20:10",
-                filename: "Secret Strategy",
-                status: 75,
-                info: "Обработка поля 'Название доктрины'",
-            },
-            {
-                id: 3,
-                date: "22.12.2000 18:20:10",
-                filename: "Secret Strategy",
-                status: "Processed",
-                info: "",
-            }
-        ];
+
         let tableFiles = new Vue({
             el: '#table',
             data: function () {
                 return {
-                    rows: tableFilesData
+                    rows: {}
                 }
             },
+            methods: {
+                process(id) {
+                    axios({
+                        method: 'get',
+                        url: `/api/file_process.php?id=${id}`,
+                    });
+                }
+            }
         });
+
+        (function updateFiles() {
+            axios({
+                method: 'get',
+                url: '/api/files_update.php',
+            }).then(function (response) {
+                tableFiles.rows = response.data;
+            });
+            setTimeout(updateFiles, 500);
+        })();
     </script>
 </body>
 
